@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Define the values for the attribute -->
+    <attr name="typeface" format="enum">
+        <enum name="sf_light" value="0" />
+        <enum name="sf_regular" value="1" />
+        <enum name="sf_medium" value="2" />
+
+    </attr>
+
+    <!-- Tell Android that the class "CustomTextView" can be styled,
+         and which attributes it supports -->
+    <declare-styleable name="CustomView">
+        <attr name="typeface" />
+    </declare-styleable>
+
+</resources>

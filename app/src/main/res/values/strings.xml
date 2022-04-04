@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">RefreshNews</string>
+    <string-array name="tab_name_array">
+        <item>Business</item>
+        <item>Technology</item>
+        <item>Entertainment</item>
+        <item>Sports</item>
+        <item>Science</item>
+        <item>Health</item>
+        <item>General</item>
+    </string-array>
 </resources>
