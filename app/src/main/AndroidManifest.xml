@@ -3,6 +3,9 @@
     package="com.kiit.eee.ragini.refreshnews"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-sdk tools:overrideLibrary="androidx.core.splashscreen" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_news_launcher"
@@ -22,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".broadcast.NetworkChangeReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

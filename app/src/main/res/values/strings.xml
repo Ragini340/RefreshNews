@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RefreshNews</string>
+    <!--Tab name-->
     <string-array name="tab_name_array">
+        <item>CountryName</item>
         <item>Business</item>
         <item>Technology</item>
         <item>Entertainment</item>
@@ -9,6 +11,13 @@
         <item>Health</item>
         <item>General</item>
     </string-array>
+    <!--Network error -->
+    <string name="retry">Retry</string>
+    <string name="server_error">Server is taking more time to respond, Please try again</string>
+    <string name="netwrokr_error">No internet connection!</string>
+    <string name="ok">Okay</string>
+    <string name="cancel">Cancel</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
