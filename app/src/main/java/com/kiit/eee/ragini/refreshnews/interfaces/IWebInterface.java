@@ -9,5 +9,5 @@ import org.json.JSONObject;
  */
 public interface IWebInterface {
    // public void getJsonResponse(JSONObject jsonObject, String whichUrl);
-    public void   getParsedResponse(IAppModel model,int whichUrl);
+    public void   getParsedResponse(IAppModel model,String whichUrl);
 }

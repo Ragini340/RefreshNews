@@ -6,5 +6,5 @@ package com.kiit.eee.ragini.refreshnews.interfaces;
  * ragini31bxr@gmail.com
  */
 public interface IDialogUtilityInterface {
-    void showDialog(String msg, int whichApiCall);
+    void showDialog(String msg, String whichApiCall);
 }

@@ -39,7 +39,7 @@ public class WebServiceController {
         this.mProgressBarUtilityInterface = (IProgressBarUtilityInterface) obj;
     }
 
-    public void getRequestWithParams(String url, RequestParams requestParams, final int flag, Class modelClass) {
+    public void getRequestWithParams(String url, RequestParams requestParams, final String flag, Class modelClass) {
         Log.i(TAG, "getRequestWithParams: url" + url);
         if (NetworkStatus.isNetwrokAvailable(mCtx)) {
             mProgressBarUtilityInterface.showProgress();

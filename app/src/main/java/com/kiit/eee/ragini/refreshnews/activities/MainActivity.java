@@ -75,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
             new TabLayoutMediator(tabLayout, mAactivityMainBinding.viewPager,
                     (tab, position) -> {
 
-                        mAactivityMainBinding.viewPager.setCurrentItem(position,true);
+                        if(position == 0) {
+                            mAactivityMainBinding.viewPager.setCurrentItem(position, false);
+                        }
                         tab.setText(mTabArray[position]);
                        }
             ).attach();
