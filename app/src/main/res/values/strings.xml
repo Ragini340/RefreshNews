@@ -18,6 +18,7 @@
     <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+   <!--News list fragment-->
+    <string name="btn_full_coverage">Full Coverage of this story</string>
+
 </resources>

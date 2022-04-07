@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.kiit.eee.ragini.refreshnews.interfaces.IAppModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 1807340_RAGINI on 04,April,2022
@@ -16,7 +17,7 @@ public class NewsRoot implements IAppModel {
     @SerializedName("totalResults")
     private int totalResults;
     @SerializedName("articles")
-    private ArrayList<Article> articleList;
+    private List<Article> articleList;
 
     public String getStatus() {
         return status;
@@ -24,7 +25,7 @@ public class NewsRoot implements IAppModel {
     public int getTotalResults() {
         return totalResults;
     }
-    public ArrayList<Article> getArticleList() {
+    public List<Article> getArticleList() {
         return articleList;
     }
 }

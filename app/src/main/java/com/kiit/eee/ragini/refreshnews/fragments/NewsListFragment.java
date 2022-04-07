@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.WindowCallbackWrapper;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,17 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
+import com.kiit.eee.ragini.refreshnews.adapter.NewsRecyclerViewAdapter;
 import com.kiit.eee.ragini.refreshnews.apicall.WebServiceController;
 import com.kiit.eee.ragini.refreshnews.databinding.FragmentNewsListBinding;
 import com.kiit.eee.ragini.refreshnews.interfaces.IAppModel;
 import com.kiit.eee.ragini.refreshnews.interfaces.IDialogUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IProgressBarUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IWebInterface;
+import com.kiit.eee.ragini.refreshnews.model.Article;
 import com.kiit.eee.ragini.refreshnews.model.NewsRoot;
 import com.kiit.eee.ragini.refreshnews.utils.Constants;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.NewsURL;
 import com.loopj.android.http.RequestParams;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +45,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     private String mTabName;
 
     private FragmentNewsListBinding mFragNewsListBinding;
+    private List<Article> mList;
 
     public NewsListFragment() {
         // Required empty public constructor
@@ -166,8 +172,29 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     public void getParsedResponse(IAppModel model, String whichUrl) {
         NewsRoot newsRoot = (NewsRoot) model;
         if(newsRoot instanceof  IAppModel){
+            mList = newsRoot.getArticleList();
             Log.i(TAG, "getParsedResponse: " + newsRoot.getArticleList());
+            setAdapter();
+
         }
     }
+
+    private void setAdapter() {
+
+        if (mFragNewsListBinding.recyclerView != null && mList != null && mList.size() > 0) {
+
+            if ( mFragNewsListBinding.recyclerView.getAdapter() == null) {
+                NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(mCtx, mList);
+                LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
+                lytManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mFragNewsListBinding.recyclerView.setLayoutManager(lytManager);
+                mFragNewsListBinding.recyclerView.setAdapter(adapter);
+            } else {
+                mFragNewsListBinding.recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+    }
+
+
 }
 
