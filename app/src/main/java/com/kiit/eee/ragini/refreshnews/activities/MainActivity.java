@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         TabLayout tabLayout = mAactivityMainBinding.tabLyt;
         // Add tab name for current country news
         mTabArray = getResources().getStringArray(R.array.tab_name_array);
-        mTabArray[0] = LocaleUtils.getCountryName(this);
+       // mTabArray[0] = LocaleUtils.getCountryName(this);
 
         for (String tabName: mTabArray) {
             Log.i(TAG, "onCreate: tabName" + tabName);
-            tabLayout.addTab(tabLayout.newTab().setText(tabName));
+            tabLayout.addTab(tabLayout.newTab());
         }
 
         // View pager set up
@@ -76,9 +76,11 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
                     (tab, position) -> {
 
                         if(position == 0) {
+                            tab.setText(LocaleUtils.getCountryName(this));
                             mAactivityMainBinding.viewPager.setCurrentItem(position, false);
+                        } else {
+                            tab.setText(mTabArray[position]);
                         }
-                        tab.setText(mTabArray[position]);
                        }
             ).attach();
         }

@@ -2,7 +2,7 @@
     <string name="app_name">RefreshNews</string>
     <!--Tab name-->
     <string-array name="tab_name_array">
-        <item>CountryName</item>
+        <item>Country</item>
         <item>Business</item>
         <item>Technology</item>
         <item>Entertainment</item>
