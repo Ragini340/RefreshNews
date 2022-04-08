@@ -21,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_5"
-        android:text="The times of Inida"
         android:textColor="@color/secondary"
         android:textSize="@dimen/font_12"
         android:textStyle="normal"
@@ -32,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_5"
-        android:text="The times of Inida"
         android:textColor="@android:color/black"
         android:textSize="@dimen/font_20"
         android:textStyle="bold"
@@ -44,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_5"
-        android:text="2 hours ago"
         android:textSize="@dimen/font_10"
-        app:typeface="sf_medium" />
+        app:typeface="sf_medium"
+        android:textStyle="normal"/>
 
     <com.kiit.eee.ragini.refreshnews.views.CustomButton
         android:id="@+id/btn_full_coverage"
