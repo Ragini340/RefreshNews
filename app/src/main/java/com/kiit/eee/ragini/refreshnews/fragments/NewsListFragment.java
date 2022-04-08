@@ -26,6 +26,7 @@ import com.kiit.eee.ragini.refreshnews.model.NewsRoot;
 import com.kiit.eee.ragini.refreshnews.utils.Constants;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.NewsURL;
+import com.kiit.eee.ragini.refreshnews.views.HorizentalItemsDividerDecorator;
 import com.loopj.android.http.RequestParams;
 
 import java.util.List;
@@ -187,6 +188,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
                 NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(mCtx, mList);
                 LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
                 lytManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mFragNewsListBinding.recyclerView.addItemDecoration(new HorizentalItemsDividerDecorator(mCtx));
                 mFragNewsListBinding.recyclerView.setLayoutManager(lytManager);
                 mFragNewsListBinding.recyclerView.setAdapter(adapter);
             } else {

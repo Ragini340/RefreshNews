@@ -1,69 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_margin="@dimen/margin_10"
+    android:background="@color/white"
+    android:paddingTop="@dimen/margin_10"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/img_news"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder"
+        app:riv_corner_radius="@dimen/news_item_radious" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_news_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="The times of Inida"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/font_12"
+        android:textStyle="normal"
+        app:typeface="sf_regular" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_news_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="The times of Inida"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_20"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:typeface="sf_medium" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_news_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="2 hours ago"
+        android:textSize="@dimen/font_10"
+        app:typeface="sf_medium" />
+
+    <com.kiit.eee.ragini.refreshnews.views.CustomButton
+        android:id="@+id/btn_full_coverage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="@dimen/margin_10"
-        android:orientation="vertical">
+        android:background="@drawable/rounded_btn_bkg"
+        android:gravity="center"
+        android:text="@string/btn_full_coverage"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_15"
+        android:textStyle="bold"
+        app:typeface="sf_medium" />
+</LinearLayout>
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/img_news"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder"
-            app:riv_corner_radius="@dimen/news_item_radious" />
-
-        <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
-            android:id="@+id/txt_news_source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5"
-            android:text="The times of Inida"
-            android:textColor="@color/secondary"
-            android:textSize="@dimen/font_12"
-            android:textStyle="normal"
-            app:typeface="sf_regular" />
-
-        <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
-            android:id="@+id/txt_news_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5"
-            android:text="The times of Inida"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_20"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:typeface="sf_medium" />
-
-        <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
-            android:id="@+id/txt_news_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5"
-            android:text="2 hours ago"
-            android:textSize="@dimen/font_10"
-            app:typeface="sf_medium" />
-
-        <com.kiit.eee.ragini.refreshnews.views.CustomButton
-            android:id="@+id/btn_full_coverage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
-            android:background="@drawable/rounded_btn_bkg"
-            android:gravity="center"
-            android:text="@string/btn_full_coverage"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_15"
-            android:textStyle="bold"
-            app:typeface="sf_medium" />
-    </LinearLayout>
-</RelativeLayout>
