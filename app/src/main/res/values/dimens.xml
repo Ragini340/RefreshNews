@@ -2,4 +2,6 @@
 <resources>
     <!--News list adapter-->
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="news_item_radious">5dp</dimen>
+
 </resources>
