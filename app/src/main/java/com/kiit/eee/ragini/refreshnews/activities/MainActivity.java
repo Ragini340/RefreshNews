@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
             mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
             mAactivityMainBinding.lytToolbar.title.setVisibility(View.GONE);
             mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.GONE);
+            mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.VISIBLE);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
                 mAactivityMainBinding.tabLyt.setVisibility(View.VISIBLE);
                 mAactivityMainBinding.lytToolbar.title.setVisibility(View.VISIBLE);
                 mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.VISIBLE);
+                mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.GONE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 return false;
         }

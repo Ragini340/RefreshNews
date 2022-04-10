@@ -4,6 +4,7 @@
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
     <dimen name="news_item_radious">5dp</dimen>
     <dimen name="btn_radious20">20dp</dimen>
 

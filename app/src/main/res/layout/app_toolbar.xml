@@ -31,4 +31,13 @@
         android:gravity="center"
         android:textSize="20sp"
         />
+
+    <ImageView
+        android:id="@+id/img_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icons8_share"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/margin_20"/>
 </androidx.appcompat.widget.Toolbar>
