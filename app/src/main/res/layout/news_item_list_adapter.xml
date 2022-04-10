@@ -59,6 +59,7 @@
         android:textColor="@android:color/black"
         android:textSize="@dimen/font_15"
         android:textStyle="bold"
-        app:typeface="sf_medium" />
+        app:typeface="sf_medium"
+        android:onClick="@{viewFullCoverage}"/>
 </LinearLayout>
 

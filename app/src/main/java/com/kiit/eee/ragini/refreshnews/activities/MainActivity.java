@@ -1,16 +1,22 @@
 package com.kiit.eee.ragini.refreshnews.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.security.ProviderInstaller;
@@ -20,6 +26,7 @@ import com.kiit.eee.ragini.refreshnews.R;
 import com.kiit.eee.ragini.refreshnews.adapter.NewsListPagerAdapter;
 import com.kiit.eee.ragini.refreshnews.databinding.ActivityMainBinding;
 import com.kiit.eee.ragini.refreshnews.databinding.AppToolbarBinding;
+import com.kiit.eee.ragini.refreshnews.interfaces.ICommunicator;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.OSUtils;
 
@@ -29,12 +36,13 @@ import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
-public class MainActivity extends AppCompatActivity implements ProviderInstaller.ProviderInstallListener{
+public class MainActivity extends AppCompatActivity implements ProviderInstaller.ProviderInstallListener, ICommunicator {
     private static final String TAG = "MainActivity";
 
     private ActivityMainBinding mAactivityMainBinding;
     private NewsListPagerAdapter mNewsPagerAdapter;
     private String[] mTabArray;
+    private int mSelectedPagePos  = -1;
 
     private static final int ERROR_DIALOG_REQUEST_CODE = 1;
 
@@ -83,6 +91,28 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
                         }
                        }
             ).attach();
+
+            mAactivityMainBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    Log.i(TAG, "onPageScrolled: position" + position);
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    Log.i(TAG, "onPageSelected:position " + position);
+                    mSelectedPagePos = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    super.onPageScrollStateChanged(state);
+                    Log.i(TAG, "onPageScrollStateChanged: state" + state);
+                }
+            });
+
         }
     }
 
@@ -142,4 +172,55 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         //    onProviderInstallerNotAvailable();
         }
     }
+
+    @Override
+    public void communicate(boolean isStatus) {
+        Log.i(TAG, "communicate: isStatus" + isStatus);
+        if(isStatus) {
+            mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
+            mAactivityMainBinding.lytToolbar.title.setVisibility(View.GONE);
+            mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.GONE);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.i(TAG, "onOptionsItemSelected: " + item.getItemId());
+        Log.i(TAG, "onOptionsItemSelected: " + android.R.id.home);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mAactivityMainBinding.tabLyt.setVisibility(View.VISIBLE);
+                mAactivityMainBinding.lytToolbar.title.setVisibility(View.VISIBLE);
+                mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.VISIBLE);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        Log.i(TAG, "onBackPressed: ");
+        FragmentManager fm = getSupportFragmentManager();
+        Log.i(TAG, "onBackPressed: getBackStackEntryCount" + fm.getBackStackEntryCount());
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 3500);
+        }
+    }
+
 }

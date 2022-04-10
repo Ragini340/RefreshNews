@@ -4,25 +4,29 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.WindowCallbackWrapper;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.webkit.WebSettings;
 
 import com.kiit.eee.ragini.refreshnews.adapter.NewsRecyclerViewAdapter;
 import com.kiit.eee.ragini.refreshnews.apicall.WebServiceController;
 import com.kiit.eee.ragini.refreshnews.databinding.FragmentNewsListBinding;
 import com.kiit.eee.ragini.refreshnews.interfaces.IAppModel;
+import com.kiit.eee.ragini.refreshnews.interfaces.ICommunicator;
+import com.kiit.eee.ragini.refreshnews.interfaces.IListCommunicator;
 import com.kiit.eee.ragini.refreshnews.interfaces.IDialogUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IProgressBarUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IWebInterface;
 import com.kiit.eee.ragini.refreshnews.model.Article;
 import com.kiit.eee.ragini.refreshnews.model.NewsRoot;
+import com.kiit.eee.ragini.refreshnews.network.NetworkStatus;
 import com.kiit.eee.ragini.refreshnews.utils.Constants;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.NewsURL;
@@ -36,7 +40,7 @@ import java.util.List;
  * Use the {@link NewsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsListFragment extends Fragment implements IProgressBarUtilityInterface, IDialogUtilityInterface , IWebInterface {
+public class NewsListFragment extends Fragment implements IProgressBarUtilityInterface, IDialogUtilityInterface , IWebInterface, IListCommunicator {
 
     private static final String TAG = "NewsListFragment";
     private static final String ARG_TABNAME = "arg_tabname";
@@ -47,6 +51,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
 
     private FragmentNewsListBinding mFragNewsListBinding;
     private List<Article> mList;
+    private ICommunicator mICommunicator;
 
     public NewsListFragment() {
         // Required empty public constructor
@@ -56,6 +61,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.mCtx = context;
+        mICommunicator = (ICommunicator) context;
     }
 
 
@@ -113,9 +119,13 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         mFragNewsListBinding = FragmentNewsListBinding.inflate(inflater, container, false);
         View view = mFragNewsListBinding.getRoot();
+        // Enable java script to webView
+        WebSettings webSettings = mFragNewsListBinding.newsWeb.getSettings();
+        webSettings.setJavaScriptEnabled(true);
         makeNewsApiCall();
         return view;
     }
@@ -183,9 +193,10 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     private void setAdapter() {
 
         if (mFragNewsListBinding.recyclerView != null && mList != null && mList.size() > 0) {
-
-            if ( mFragNewsListBinding.recyclerView.getAdapter() == null) {
-                NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(mCtx, mList);
+            mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
+            mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
+            if (mFragNewsListBinding.recyclerView.getAdapter() == null) {
+                NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(NewsListFragment.this, mCtx, mList);
                 LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
                 lytManager.setOrientation(LinearLayoutManager.VERTICAL);
                 mFragNewsListBinding.recyclerView.addItemDecoration(new HorizentalItemsDividerDecorator(mCtx));
@@ -197,6 +208,42 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         }
     }
 
+    @Override
+    public void communicate(String stingData) {
+        Log.i(TAG, "communicate: String url " + stingData);
+        mICommunicator.communicate(true);
+        mFragNewsListBinding.recyclerView.setVisibility(View.GONE);
+        // Show and hide progressbar
+       // showProgress();
+        loadFullCoverageNews(stingData);
+    }
 
+    private void loadFullCoverageNews(String url){
+        mFragNewsListBinding.newsWeb.setVisibility(View.VISIBLE);
+        if(NetworkStatus.isNetwrokAvailable(mCtx)) {
+            mFragNewsListBinding.newsWeb.loadUrl(url);
+
+        } else{
+            // Todo show network dialog
+          //  showDialog();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.i(TAG, "onOptionsItemSelected: fragment " + item.getItemId());
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mFragNewsListBinding.newsWeb.clearCache(true);
+                mFragNewsListBinding.newsWeb.clearFormData();
+                mFragNewsListBinding.newsWeb.clearHistory();
+                mFragNewsListBinding.newsWeb.destroy();
+                mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
+                mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
