@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         mFullCoverageStoryTitle = extraData;
         if(isStatus) {
             mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
-            mAactivityMainBinding.lytToolbar.title.setVisibility(View.GONE);
+            mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_full_title));
             mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.GONE);
             mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.VISIBLE);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         switch (item.getItemId()) {
             case android.R.id.home:
                 mAactivityMainBinding.tabLyt.setVisibility(View.VISIBLE);
-                mAactivityMainBinding.lytToolbar.title.setVisibility(View.VISIBLE);
+                mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_headline));
                 mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.VISIBLE);
                 mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.GONE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);

@@ -20,5 +20,7 @@
 
    <!--News list fragment-->
     <string name="btn_full_coverage">Full Coverage of this story</string>
+    <string name="appbar_full_title">Full Coverage</string>
+    <string name="appbar_headline">Headline</string>
 
 </resources>
