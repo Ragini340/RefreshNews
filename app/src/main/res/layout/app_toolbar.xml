@@ -16,7 +16,6 @@
         android:queryHint="Search News"
         android:iconifiedByDefault="true"
         app:queryHint="Search for topic locations and sources"
-
         />
 
     <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView

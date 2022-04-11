@@ -24,6 +24,7 @@ import com.kiit.eee.ragini.refreshnews.interfaces.IListCommunicator;
 import com.kiit.eee.ragini.refreshnews.interfaces.IDialogUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IProgressBarUtilityInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IWebInterface;
+import com.kiit.eee.ragini.refreshnews.interfaces.IWebViewClientCommunicator;
 import com.kiit.eee.ragini.refreshnews.model.Article;
 import com.kiit.eee.ragini.refreshnews.model.NewsRoot;
 import com.kiit.eee.ragini.refreshnews.network.NetworkStatus;
@@ -31,6 +32,7 @@ import com.kiit.eee.ragini.refreshnews.utils.Constants;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.NewsURL;
 import com.kiit.eee.ragini.refreshnews.views.HorizentalItemsDividerDecorator;
+import com.kiit.eee.ragini.refreshnews.webview.NewsWebViewClient;
 import com.loopj.android.http.RequestParams;
 
 import java.util.List;
@@ -40,7 +42,7 @@ import java.util.List;
  * Use the {@link NewsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsListFragment extends Fragment implements IProgressBarUtilityInterface, IDialogUtilityInterface , IWebInterface, IListCommunicator {
+public class NewsListFragment extends Fragment implements IProgressBarUtilityInterface, IDialogUtilityInterface , IWebInterface, IListCommunicator, IWebViewClientCommunicator {
 
     private static final String TAG = "NewsListFragment";
     private static final String ARG_TABNAME = "arg_tabname";
@@ -126,6 +128,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         // Enable java script to webView
         WebSettings webSettings = mFragNewsListBinding.newsWeb.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        mFragNewsListBinding.newsWeb.setWebViewClient(new NewsWebViewClient(NewsListFragment.this));
         makeNewsApiCall();
         return view;
     }
@@ -213,8 +216,6 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         Log.i(TAG, "communicate: String url " + stingData);
         mICommunicator.communicate(true);
         mFragNewsListBinding.recyclerView.setVisibility(View.GONE);
-        // Show and hide progressbar
-       // showProgress();
         loadFullCoverageNews(stingData);
     }
 
@@ -234,16 +235,26 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         Log.i(TAG, "onOptionsItemSelected: fragment " + item.getItemId());
         switch (item.getItemId()) {
             case android.R.id.home:
-                mFragNewsListBinding.newsWeb.clearCache(true);
-                mFragNewsListBinding.newsWeb.clearFormData();
+              //  mFragNewsListBinding.newsWeb.clearCache(true);
+              //  mFragNewsListBinding.newsWeb.clearFormData();
                 mFragNewsListBinding.newsWeb.clearHistory();
-                mFragNewsListBinding.newsWeb.destroy();
+              //  mFragNewsListBinding.newsWeb.destroy();
                 mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
                 mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
 
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPageStarted(boolean isPageStarted) {
+        showProgress();
+    }
+
+    @Override
+    public void onPageFinished(boolean isPageFinished) {
+        hideProgress();
     }
 }
 
