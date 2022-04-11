@@ -85,8 +85,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
             Log.i(TAG, "viewFullCoverage: getAdapterPosition" + getBindingAdapterPosition());
             Article article = mList.get(getBindingAdapterPosition());
             if(article != null) {
-                if(article.getUrl() != null && !TextUtils.isEmpty(article.getUrl())){
-                    mICommunicator.communicate(article.getUrl());
+                if(article.getUrl() != null && !TextUtils.isEmpty(article.getUrl()) && !TextUtils.isEmpty(article.getTitle())){
+                    mICommunicator.communicate(article.getUrl(), article.getTitle());
                 }
             }
         }

@@ -6,5 +6,5 @@ package com.kiit.eee.ragini.refreshnews.interfaces;
  * ragini31bxr@gmail.com
  */
 public interface ICommunicator {
-    void communicate(boolean isStatus);
+    void communicate(boolean isStatus, String url, String extraData);
 }

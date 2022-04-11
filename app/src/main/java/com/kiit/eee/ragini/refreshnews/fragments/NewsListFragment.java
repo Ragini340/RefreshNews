@@ -212,9 +212,9 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     }
 
     @Override
-    public void communicate(String stingData) {
+    public void communicate(String stingData, String extraData) {
         Log.i(TAG, "communicate: String url " + stingData);
-        mICommunicator.communicate(true);
+        mICommunicator.communicate(true, stingData, extraData);
         mFragNewsListBinding.recyclerView.setVisibility(View.GONE);
         loadFullCoverageNews(stingData);
     }

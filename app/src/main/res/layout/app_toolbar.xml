@@ -38,5 +38,6 @@
         android:src="@drawable/icons8_share"
         android:layout_gravity="end"
         android:visibility="gone"
+        android:onClick="@{shareStory}"
         android:layout_marginEnd="@dimen/margin_20"/>
 </androidx.appcompat.widget.Toolbar>

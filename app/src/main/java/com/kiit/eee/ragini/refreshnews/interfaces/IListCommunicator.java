@@ -6,5 +6,5 @@ package com.kiit.eee.ragini.refreshnews.interfaces;
  * ragini31bxr@gmail.com
  */
 public interface IListCommunicator {
-    void communicate(String stingData);
+    void communicate(String stingData, String stringDataExtra);
 }

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
     private NewsListPagerAdapter mNewsPagerAdapter;
     private String[] mTabArray;
     private int mSelectedPagePos  = -1;
+    private String mFullCoverageUrl, mFullCoverageStoryTitle;
 
     private static final int ERROR_DIALOG_REQUEST_CODE = 1;
 
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         Toolbar toolbar = mAactivityMainBinding.lytToolbar.getRoot();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // Register click listener on share
+        mAactivityMainBinding.lytToolbar.imgShare.setOnClickListener(this::share);
 
         //Set tab layout
         TabLayout tabLayout = mAactivityMainBinding.tabLyt;
@@ -116,6 +120,14 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         }
     }
 
+    public void share(View view){
+        Log.i(TAG, "share: " + mFullCoverageUrl);
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mFullCoverageUrl);
+        sendIntent.setType("*/*");
+        sendIntent.putExtra(Intent.EXTRA_TITLE, mFullCoverageStoryTitle);
+        startActivity(Intent.createChooser(sendIntent, mFullCoverageStoryTitle));
+    }
     protected void checkTls() {
       //  if (android.os.Build.VERSION.SDK_INT < 21) {
             try {
@@ -174,8 +186,10 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
     }
 
     @Override
-    public void communicate(boolean isStatus) {
+    public void communicate(boolean isStatus, String url, String extraData) {
         Log.i(TAG, "communicate: isStatus" + isStatus);
+        mFullCoverageUrl = url;
+        mFullCoverageStoryTitle = extraData;
         if(isStatus) {
             mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
             mAactivityMainBinding.lytToolbar.title.setVisibility(View.GONE);
