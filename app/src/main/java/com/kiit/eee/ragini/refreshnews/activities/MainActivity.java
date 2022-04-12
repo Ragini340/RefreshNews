@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.security.ProviderInstaller;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.kiit.eee.ragini.refreshnews.R;
@@ -79,6 +80,12 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
             tabLayout.addTab(tabLayout.newTab());
         }
 
+        //Set Bottom Appbar
+       // setSupportActionBar(mAactivityMainBinding.appBottomBar);
+        mAactivityMainBinding.txtLibrary.setOnClickListener(this::showNewsSource);
+        mAactivityMainBinding.txtHelp.setOnClickListener(this::help);
+        mAactivityMainBinding.txtAboutUs.setOnClickListener(this::aboutUs);
+
         // View pager set up
         if(mNewsPagerAdapter == null) {
             mNewsPagerAdapter = new NewsListPagerAdapter(this);
@@ -128,6 +135,22 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         sendIntent.putExtra(Intent.EXTRA_TITLE, mFullCoverageStoryTitle);
         startActivity(Intent.createChooser(sendIntent, mFullCoverageStoryTitle));
     }
+
+    public void showNewsSource(View view) {
+        Log.i(TAG, "showNewsSource: " + view);
+
+    }
+
+
+    public void help(View view) {
+        Log.i(TAG, "help: " + view);
+    }
+
+    public void aboutUs(View view) {
+        Log.i(TAG, "aboutUs: " + view);
+    }
+
+
     protected void checkTls() {
       //  if (android.os.Build.VERSION.SDK_INT < 21) {
             try {

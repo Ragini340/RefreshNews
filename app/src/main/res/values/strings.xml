@@ -23,4 +23,9 @@
     <string name="appbar_full_title">Full Coverage</string>
     <string name="appbar_headline">Headline</string>
 
+    <!--BottomBar-->
+    <string name="about_us">About Us</string>
+    <string name="help">Help</string>
+    <string name="library">Library</string>
+
 </resources>
