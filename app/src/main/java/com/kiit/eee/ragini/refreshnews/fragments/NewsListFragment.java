@@ -16,6 +16,7 @@ import android.webkit.URLUtil;
 import android.webkit.WebSettings;
 
 import com.kiit.eee.ragini.refreshnews.adapter.NewsRecyclerViewAdapter;
+import com.kiit.eee.ragini.refreshnews.adapter.NewsSourceRecyclerViewAdapter;
 import com.kiit.eee.ragini.refreshnews.apicall.WebServiceController;
 import com.kiit.eee.ragini.refreshnews.databinding.FragmentNewsListBinding;
 import com.kiit.eee.ragini.refreshnews.interfaces.IAppModel;
@@ -27,7 +28,12 @@ import com.kiit.eee.ragini.refreshnews.interfaces.IWebInterface;
 import com.kiit.eee.ragini.refreshnews.interfaces.IWebViewClientCommunicator;
 import com.kiit.eee.ragini.refreshnews.model.Article;
 import com.kiit.eee.ragini.refreshnews.model.NewsRoot;
+import com.kiit.eee.ragini.refreshnews.model.Source;
+import com.kiit.eee.ragini.refreshnews.model.newslibrary.NewsSource;
+import com.kiit.eee.ragini.refreshnews.model.newslibrary.NewsSourceRoot;
 import com.kiit.eee.ragini.refreshnews.network.NetworkStatus;
+import com.kiit.eee.ragini.refreshnews.sharedPreference.SessionManager;
+import com.kiit.eee.ragini.refreshnews.sharedPreference.SessionMangarHelper;
 import com.kiit.eee.ragini.refreshnews.utils.Constants;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.NewsURL;
@@ -53,7 +59,9 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
 
     private FragmentNewsListBinding mFragNewsListBinding;
     private List<Article> mList;
+    private List<NewsSource> mSourceList;
     private ICommunicator mICommunicator;
+    private boolean isLibraryLoaded;
 
     public NewsListFragment() {
         // Required empty public constructor
@@ -89,31 +97,31 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         }
     }
 
-    private void makeNewsApiCall() {
+    private void makeNewsApiCall(String baseURL,Class rootClass, int whichFeatureApi) {
         switch (mTabName.toLowerCase()) {
             case NewsURL.NEWS_TYPE_COUNTRY:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCountry(), NewsURL.NEWS_TYPE_COUNTRY);
+                makeApiCall(baseURL, getParamsForCountry(), NewsURL.NEWS_TYPE_COUNTRY, whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_BUSINESS:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_BUSINESS), NewsURL.NEWS_TYPE_BUSINESS);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_BUSINESS), NewsURL.NEWS_TYPE_BUSINESS,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_ENTERTAINMENT:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_ENTERTAINMENT), NewsURL.NEWS_TYPE_ENTERTAINMENT);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_ENTERTAINMENT), NewsURL.NEWS_TYPE_ENTERTAINMENT,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_GENERAL:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_GENERAL), NewsURL.NEWS_TYPE_GENERAL);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_GENERAL), NewsURL.NEWS_TYPE_GENERAL,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_HEALTH:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_HEALTH), NewsURL.NEWS_TYPE_HEALTH);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_HEALTH), NewsURL.NEWS_TYPE_HEALTH,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_SCIENCE:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_SCIENCE), NewsURL.NEWS_TYPE_SCIENCE);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_SCIENCE), NewsURL.NEWS_TYPE_SCIENCE,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_SPORTS:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_SPORTS), NewsURL.NEWS_TYPE_SPORTS);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_SPORTS), NewsURL.NEWS_TYPE_SPORTS,whichFeatureApi, rootClass);
                 break;
             case NewsURL.NEWS_TYPE_TECHNOLOGY:
-                makeApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, getParamsForCategory(NewsURL.NEWS_TYPE_TECHNOLOGY), NewsURL.NEWS_TYPE_TECHNOLOGY);
+                makeApiCall(baseURL, getParamsForCategory(NewsURL.NEWS_TYPE_TECHNOLOGY), NewsURL.NEWS_TYPE_TECHNOLOGY,whichFeatureApi, rootClass);
                 break;
         }
     }
@@ -129,7 +137,12 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         WebSettings webSettings = mFragNewsListBinding.newsWeb.getSettings();
         webSettings.setJavaScriptEnabled(true);
         mFragNewsListBinding.newsWeb.setWebViewClient(new NewsWebViewClient(NewsListFragment.this));
-        makeNewsApiCall();
+     //   isLibraryLoaded = SessionMangarHelper.getInstance(mCtx).getPrefBoolean(SessionManager.PREF_KEY_IS_LIBRARY_LOADED);
+        if(isLibraryLoaded){
+            makeNewsApiCall(NewsURL.NEWS_SOURCES, NewsSourceRoot.class, NewsURL.SOURCE_API_FEATURE);
+        } else{
+            makeNewsApiCall(NewsURL.NEWS_BASED_TOP_HEADLINE, NewsRoot.class, NewsURL.NEWS_API_FEATURE);
+        }
         return view;
     }
 
@@ -137,6 +150,8 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     public void onDestroy() {
         super.onDestroy();
         mFragNewsListBinding = null;
+        isLibraryLoaded = false;
+       // SessionMangarHelper.getInstance(mCtx).setPrefBooleanData(SessionManager.PREF_KEY_IS_LIBRARY_LOADED,isLibraryLoaded);
     }
 
     private RequestParams getParamsForCountry() {
@@ -160,10 +175,10 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         Log.i(TAG, "getParamsForCountry: params" + params);
         return params;
     }
-    private void makeApiCall(String url, RequestParams params, String whichApiCall) {
+    private void makeApiCall(String url, RequestParams params, String whichApiCall, int whichFeatureApiCall,Class rootClass) {
         if (URLUtil.isValidUrl(url)) {
             WebServiceController webServiceController = new WebServiceController(mCtx, this);
-            webServiceController.getRequestWithParams(url, params, whichApiCall, NewsRoot.class);
+            webServiceController.getRequestWithParams(url, params, whichApiCall,whichFeatureApiCall, rootClass);
         }
     }
 
@@ -183,22 +198,52 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     }
 
     @Override
-    public void getParsedResponse(IAppModel model, String whichUrl) {
-        NewsRoot newsRoot = (NewsRoot) model;
-        if(newsRoot instanceof  IAppModel){
-            mList = newsRoot.getArticleList();
-            Log.i(TAG, "getParsedResponse: " + newsRoot.getArticleList());
-            setAdapter();
+    public void getParsedResponse(IAppModel model, String whichUrl,int whichFeaturApiResponse) {
+        if(whichFeaturApiResponse == NewsURL.NEWS_API_FEATURE) {
+            NewsRoot newsRoot = (NewsRoot) model;
+            if (newsRoot instanceof IAppModel) {
+                mList = newsRoot.getArticleList();
+                Log.i(TAG, "getParsedResponse: " + newsRoot.getArticleList());
+                setAdapter();
+            }
+        } else if(whichFeaturApiResponse == NewsURL.SOURCE_API_FEATURE){
+            NewsSourceRoot newsSourceRoot = (NewsSourceRoot) model;
+            if(newsSourceRoot instanceof  IAppModel){
+                mSourceList = newsSourceRoot.getmSourceList();
+                setNewsSourceAdapter();
+            }
+            Log.i(TAG, "getParsedResponse: source api" + mSourceList);
 
         }
     }
+
+    private void setNewsSourceAdapter() {
+        if (mFragNewsListBinding.recyclerView != null && mSourceList != null && mSourceList.size() > 0) {
+            mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
+            mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
+
+            if (mFragNewsListBinding.recyclerView.getAdapter() == null || (mFragNewsListBinding.recyclerView.getAdapter() != null && !(mFragNewsListBinding.recyclerView.getAdapter() instanceof NewsSourceRecyclerViewAdapter))) {
+                mFragNewsListBinding.recyclerView.setAdapter(null);
+                NewsSourceRecyclerViewAdapter adapter = new NewsSourceRecyclerViewAdapter(NewsListFragment.this, mCtx, mSourceList);
+                LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
+                lytManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mFragNewsListBinding.recyclerView.addItemDecoration(new HorizentalItemsDividerDecorator(mCtx));
+                mFragNewsListBinding.recyclerView.setLayoutManager(lytManager);
+                mFragNewsListBinding.recyclerView.setAdapter(adapter);
+            } else {
+                mFragNewsListBinding.recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+    }
+
 
     private void setAdapter() {
 
         if (mFragNewsListBinding.recyclerView != null && mList != null && mList.size() > 0) {
             mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
             mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
-            if (mFragNewsListBinding.recyclerView.getAdapter() == null) {
+            if (mFragNewsListBinding.recyclerView.getAdapter() == null || (mFragNewsListBinding.recyclerView.getAdapter() != null && !(mFragNewsListBinding.recyclerView.getAdapter() instanceof NewsRecyclerViewAdapter))) {
+                mFragNewsListBinding.recyclerView.setAdapter(null);
                 NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(NewsListFragment.this, mCtx, mList);
                 LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
                 lytManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -255,6 +300,15 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     @Override
     public void onPageFinished(boolean isPageFinished) {
         hideProgress();
+    }
+
+    public void onClickOfLibrary(boolean isLibraryNeedToLoad, int selectedPos){
+        Log.i(TAG, "onClickOfLibrary: isLibraryNeedToLoad" + isLibraryNeedToLoad + "Position" + selectedPos);
+        isLibraryLoaded = isLibraryNeedToLoad;
+      //  SessionMangarHelper.getInstance(mCtx).setPrefBooleanData(SessionManager.PREF_KEY_IS_LIBRARY_LOADED,isLibraryNeedToLoad);
+        if(isLibraryNeedToLoad){
+            makeNewsApiCall(NewsURL.NEWS_SOURCES, NewsSourceRoot.class, NewsURL.SOURCE_API_FEATURE);
+        }
     }
 }
 

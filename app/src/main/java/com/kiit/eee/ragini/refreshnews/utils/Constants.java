@@ -6,5 +6,6 @@ package com.kiit.eee.ragini.refreshnews.utils;
  * ragini31bxr@gmail.com
  */
 public class Constants {
-    public static final String API_KEY = "8413d733a90046d4893de4e4f72bd83a";
+    //public static final String API_KEY = "8413d733a90046d4893de4e4f72bd83a";
+    public static final String API_KEY = "9ef35cabf6c147a585adea7774efd427";
 }

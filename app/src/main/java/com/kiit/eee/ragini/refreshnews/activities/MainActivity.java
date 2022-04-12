@@ -27,7 +27,10 @@ import com.kiit.eee.ragini.refreshnews.R;
 import com.kiit.eee.ragini.refreshnews.adapter.NewsListPagerAdapter;
 import com.kiit.eee.ragini.refreshnews.databinding.ActivityMainBinding;
 import com.kiit.eee.ragini.refreshnews.databinding.AppToolbarBinding;
+import com.kiit.eee.ragini.refreshnews.fragments.NewsListFragment;
 import com.kiit.eee.ragini.refreshnews.interfaces.ICommunicator;
+import com.kiit.eee.ragini.refreshnews.sharedPreference.SessionManager;
+import com.kiit.eee.ragini.refreshnews.sharedPreference.SessionMangarHelper;
 import com.kiit.eee.ragini.refreshnews.utils.LocaleUtils;
 import com.kiit.eee.ragini.refreshnews.utils.OSUtils;
 
@@ -45,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
     private String[] mTabArray;
     private int mSelectedPagePos  = -1;
     private String mFullCoverageUrl, mFullCoverageStoryTitle;
-
     private static final int ERROR_DIALOG_REQUEST_CODE = 1;
+    private boolean isLibraryLoaded;
 
     private boolean retryProviderInstall;
 
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
 
         //Set Bottom Appbar
        // setSupportActionBar(mAactivityMainBinding.appBottomBar);
-        mAactivityMainBinding.txtLibrary.setOnClickListener(this::showNewsSource);
+        mAactivityMainBinding.txtLibrary.setOnClickListener(this::showNewsLibrary);
         mAactivityMainBinding.txtHelp.setOnClickListener(this::help);
         mAactivityMainBinding.txtAboutUs.setOnClickListener(this::aboutUs);
 
@@ -136,9 +139,17 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         startActivity(Intent.createChooser(sendIntent, mFullCoverageStoryTitle));
     }
 
-    public void showNewsSource(View view) {
+    public void showNewsLibrary(View view) {
         Log.i(TAG, "showNewsSource: " + view);
-
+        if(mAactivityMainBinding.viewPager != null && mAactivityMainBinding.viewPager.getAdapter() != null){
+            NewsListPagerAdapter newsListPagerAdapter = (NewsListPagerAdapter) mAactivityMainBinding.viewPager.getAdapter();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            NewsListFragment newsListFragment = (NewsListFragment) fragmentManager.findFragmentByTag("f" + newsListPagerAdapter.getItemId(mSelectedPagePos));
+            Log.i(TAG, "showNewsLibrary: Id of Fragment" + fragmentManager.findFragmentByTag("f" + newsListPagerAdapter.getItemId(mSelectedPagePos)));
+            isLibraryLoaded = true;
+            mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.btn_sources_protal_list));
+            newsListFragment.onClickOfLibrary(isLibraryLoaded,mSelectedPagePos);
+        }
     }
 
 
@@ -215,9 +226,16 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         mFullCoverageStoryTitle = extraData;
         if(isStatus) {
             mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
-            mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_full_title));
             mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.GONE);
-            mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.VISIBLE);
+            mAactivityMainBinding.appBottomBar.setVisibility(View.GONE);
+            if(isLibraryLoaded){
+                mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.btn_sources_protal_list));
+                mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.GONE);
+
+            } else {
+                mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_full_title));
+                mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.VISIBLE);
+            }
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -229,9 +247,15 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         switch (item.getItemId()) {
             case android.R.id.home:
                 mAactivityMainBinding.tabLyt.setVisibility(View.VISIBLE);
-                mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_headline));
+                if(isLibraryLoaded){
+                    mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.btn_sources_protal_list));
+                } else{
+                    mAactivityMainBinding.lytToolbar.title.setText(getString(R.string.appbar_headline));
+                }
+
                 mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.VISIBLE);
                 mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.GONE);
+                mAactivityMainBinding.appBottomBar.setVisibility(View.VISIBLE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 return false;
         }

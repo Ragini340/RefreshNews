@@ -28,4 +28,7 @@
     <string name="help">Help</string>
     <string name="library">Library</string>
 
+    <!--Sources-->
+    <string name="btn_sources_protal">News Portal</string>
+    <string name="btn_sources_protal_list">News Library</string>
 </resources>

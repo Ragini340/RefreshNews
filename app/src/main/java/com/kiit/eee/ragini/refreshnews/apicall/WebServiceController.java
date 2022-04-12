@@ -39,7 +39,7 @@ public class WebServiceController {
         this.mProgressBarUtilityInterface = (IProgressBarUtilityInterface) obj;
     }
 
-    public void getRequestWithParams(String url, RequestParams requestParams, final String flag, Class modelClass) {
+    public void getRequestWithParams(String url, RequestParams requestParams, final String flag, int whichFeatureApiCall, Class modelClass) {
         Log.i(TAG, "getRequestWithParams: url" + url);
         if (NetworkStatus.isNetwrokAvailable(mCtx)) {
             mProgressBarUtilityInterface.showProgress();
@@ -56,7 +56,7 @@ public class WebServiceController {
                         // Define Response class to correspond to the JSON response returned
                         IAppModel iAppModel = (IAppModel) gson.fromJson(response, modelClass);
                         if (mWebInterface != null && iAppModel != null) {
-                            mWebInterface.getParsedResponse(iAppModel, flag);
+                            mWebInterface.getParsedResponse(iAppModel, flag, whichFeatureApiCall);
                         }
                         mProgressBarUtilityInterface.hideProgress();
                     } catch (UnsupportedEncodingException e) {

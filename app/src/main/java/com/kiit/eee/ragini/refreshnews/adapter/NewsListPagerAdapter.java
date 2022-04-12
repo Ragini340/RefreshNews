@@ -37,4 +37,10 @@ public class NewsListPagerAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return mTabArray.length;
     }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
 }

@@ -18,4 +18,7 @@ public static final String NEWS_TYPE_SCIENCE = "science";
 public static final String NEWS_TYPE_SPORTS = "sports";
 public static final String NEWS_TYPE_TECHNOLOGY = "technology";
 public static final String NEWS_SOURCES = BASE_NEWS_URL + "sources";
+
+public static final int NEWS_API_FEATURE = 1;
+public static final int SOURCE_API_FEATURE = 2;
 }
