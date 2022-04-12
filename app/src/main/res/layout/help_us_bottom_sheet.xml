@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.MaterialComponents.BottomSheet.Modal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_10"
+    android:visibility="visible"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:layout_collapseMode="none">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/img_logo_help"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:src="@drawable/news_logo_red_white" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_abt_us_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:text="@string/help_us_title"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/font_22"
+        android:textStyle="bold"
+        app:typeface="sf_medium" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/view_headlines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="@string/help_us_headlines_category"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_15"
+        android:textStyle="normal"
+        android:typeface="normal"
+        app:typeface="sf_regular" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_sources"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="@string/help_us_view_sources_title"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/font_20"
+        android:textStyle="bold"
+        app:typeface="sf_medium" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/txt_about_sources_us_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/margin_10"
+        android:gravity="left"
+        android:text="@string/help_us_view_sources"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_15"
+        android:textStyle="normal"
+        app:typeface="sf_regular" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/help_us_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/margin_5"
+        android:gravity="left"
+        android:text="@string/help_us_search_title"
+        android:textAllCaps="false"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/font_20"
+        android:textStyle="bold"
+        app:typeface="sf_medium" />
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/help_us_search_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/margin_5"
+        android:gravity="left"
+        android:text="@string/help_us_view_search"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_15"
+        android:textStyle="normal"
+        app:typeface="sf_regular" />
+
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/help_us_login_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/margin_5"
+        android:gravity="left"
+        android:text="@string/help_us_login_title"
+        android:textAllCaps="false"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/font_20"
+        android:textStyle="bold"
+        app:typeface="sf_medium" />
+    <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
+        android:id="@+id/help_us_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/margin_5"
+        android:gravity="left"
+        android:text="@string/help_us_login"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_15"
+        android:textStyle="normal"
+        app:typeface="sf_regular" />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        android:src="@drawable/kiit_logo" />
+
+</LinearLayout>
+

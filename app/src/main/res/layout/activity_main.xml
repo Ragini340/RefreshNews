@@ -96,4 +96,7 @@
     <include
         android:id="@+id/lyt_about_us"
         layout="@layout/about_us_bottomsheet" />
+    <include
+        android:id="@+id/lyt_help_us"
+        layout="@layout/help_us_bottom_sheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -40,4 +40,17 @@
     <string name="about_us_contact">Ragini\n
 Roll: 1807340, Branch: EEE, Section:EEE5\n
 Kalinga Institute of Industrial Technology</string>
+    <!--Help up-->
+    <string name="help_us_title">Help Center</string>
+    <string name="help_us_view_headlines">View Headlines</string>
+    <string name="help_us_headlines_category">Headline of news can be viewed using below categories\n1. Country\n2.Busienss\n3.Technology\n4.Entertainment\n5.Sports\n6.Science\n7.Health\n8.General</string>
+
+    <string name="help_us_view_sources_title">View News Agencies</string>
+    <string name="help_us_view_sources">We can track news Sources By clicking on Library\nNews Sources list we can see and its details.</string>
+    <string name="help_us_search_title">Search News</string>
+    <string name="help_us_view_search">We can search news by entering keyworad and Application will give search result till 4 year old data.</string>
+    <string name="help_us_login_title">Login to Application</string>
+    <string name="help_us_login">This app can be used without login and by login using Phone number</string>
+
+
 </resources>

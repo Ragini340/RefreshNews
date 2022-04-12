@@ -157,6 +157,13 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
 
     public void help(View view) {
         Log.i(TAG, "help: " + view);
+        Log.i(TAG, "aboutUs: " + view);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        // bottomSheetDialog.s(BottomSheetBehavior.STATE_HIDDEN);
+        bottomSheetDialog.setContentView(R.layout.help_us_bottom_sheet);
+        bottomSheetDialog.show();
+        bottomSheetDialog.setCancelable(true);
+        bottomSheetDialog.setCanceledOnTouchOutside(true);
     }
 
     public void aboutUs(View view) {
