@@ -3,16 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/1807340_RAGINI/.gradle/caches/transforms-3/f791586eb8e3cddcf33fb36842d7675a/transformed/appcompat-1.4.1/res/layout/support_simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1345" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/drawable/ic_news_launcher_background.xml" value="0.137" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/drawable/rounded_btn_bkg.xml" value="0.137" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/about_us_bottomsheet.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/drawable/ic_news_launcher_background.xml" value="0.124" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/about_us_bottomsheet.xml" value="0.16" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/activity_splash.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/source_item_list_adapter.xml" value="0.18342391304347827" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/activity_splash.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/app_toolbar.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/bottom_app_bar.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/fragment_news_list.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/help.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/news_item_list_adapter.xml" value="0.1" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/layout/source_item_list_adapter.xml" value="0.1" />
+        <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -6,14 +6,16 @@
     android:padding="@dimen/margin_10"
     android:background="@color/white"
     android:orientation="vertical"
-
-
-   >
+    app:layout_collapseMode="none"
+    app:behavior_hideable="true"
+    android:visibility="visible"
+    app:behavior_peekHeight="0dp"
+    style="@style/Widget.MaterialComponents.BottomSheet.Modal"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/img_logo"
-
- android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
         android:src="@drawable/news_logo_red_white"
         android:layout_gravity="center"
         android:background="@color/white"
@@ -50,6 +52,7 @@
         android:textSize="@dimen/font_20"
         app:typeface="sf_medium"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="@string/about_us_version"/>
 
     <com.kiit.eee.ragini.refreshnews.activities.views.CustomTextView
@@ -72,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_5"
         android:gravity="left"
         android:text="@string/about_us_contact"
         android:textAllCaps="false"
@@ -84,11 +87,11 @@
     <androidx.appcompat.widget.AppCompatImageButton
         android:layout_marginTop="@dimen/margin_10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:src="@drawable/kiit_logo"
-        android:layout_gravity="left"
-        android:foregroundGravity="left"
+        android:layout_gravity="center"
         android:background="@color/white"
+        android:scaleType="fitCenter"
         />
 </LinearLayout>
 
