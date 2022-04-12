@@ -93,4 +93,7 @@
             android:onClick="@{aboutUs}"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.bottomappbar.BottomAppBar>
+    <include
+        android:id="@+id/lyt_about_us"
+        layout="@layout/about_us_bottomsheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

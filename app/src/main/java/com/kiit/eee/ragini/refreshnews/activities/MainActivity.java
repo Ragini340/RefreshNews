@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.security.ProviderInstaller;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.kiit.eee.ragini.refreshnews.R;
@@ -159,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
 
     public void aboutUs(View view) {
         Log.i(TAG, "aboutUs: " + view);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.about_us_bottomsheet);
+        bottomSheetDialog.show();
     }
 
 

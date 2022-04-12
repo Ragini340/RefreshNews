@@ -31,4 +31,13 @@
     <!--Sources-->
     <string name="btn_sources_protal">News Portal</string>
     <string name="btn_sources_protal_list">News Library</string>
+
+    <!--About us-->
+    <string name="about_us_title">About Refresh News - only real</string>
+    <string name="about_us_content">In this fast moving world where people find little time to spend with their own family, it is difficult to find time to read newspaper and stay updated with the current affairs. Reading newspaper might sometimes be time taking considering the size of the article. Sometimes people give the article an skip due to lethargy if it is too long. Information through listening and visuals is quickly perceived compared to reading. To make things easier, the Refresh News - only real can be used to scan the headlines from the newspaper and fetch relevant news from the world wide web</string>
+    <string name="about_us_version">This is first version of app  and its is in English Language.</string>
+    <string name="about_us_contact_us_tag">Contact Us</string>
+    <string name="about_us_contact">Ragini\n
+Roll: 1807340, Branch: EEE, Section:EEE5\n
+Kalinga Institute of Industrial Technology</string>
 </resources>
