@@ -3,15 +3,19 @@ package com.kiit.eee.ragini.refreshnews.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
     private String mFullCoverageUrl, mFullCoverageStoryTitle;
     private static final int ERROR_DIALOG_REQUEST_CODE = 1;
     private boolean isLibraryLoaded;
+    private static final String ARG_TABNAME = "arg_tabname";
 
     private boolean retryProviderInstall;
 
@@ -70,6 +75,50 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
         Toolbar toolbar = mAactivityMainBinding.lytToolbar.getRoot();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //SearchView
+        mAactivityMainBinding.lytToolbar.searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "onClick: search" + view);
+                mAactivityMainBinding.lytToolbar.title.setVisibility(View.GONE);
+                mAactivityMainBinding.tabLyt.setVisibility(View.GONE);
+                mAactivityMainBinding.viewPager.setVisibility(View.GONE);
+                mAactivityMainBinding.appBottomBar.setVisibility(View.GONE);
+                mAactivityMainBinding.container.setVisibility(View.VISIBLE);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                NewsListFragment fragment = new NewsListFragment();
+                Bundle args = new Bundle();
+                args.putString(ARG_TABNAME, "Search");
+                fragment.setArguments(args);
+                fragmentTransaction.add(R.id.container, fragment, "SearchFragment");
+                fragmentTransaction.commit();
+
+            }
+        });
+        mAactivityMainBinding.lytToolbar.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i(TAG, "onQueryTextSubmit: query" + query);
+
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                NewsListFragment newsListFragment = (NewsListFragment) fragmentManager.findFragmentByTag("SearchFragment");
+              //  Log.i(TAG, "showNewsLibrary: Id of Fragment" + fragmentManager.findFragmentByTag("f" + newsListPagerAdapter.getItemId(mSelectedPagePos)));
+                if(!TextUtils.isEmpty(query)) {
+                    newsListFragment.onClickOfSearch(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.i(TAG, "onQueryTextChange: newText" + newText);
+                return false;
+            }
+        });
 
         // Register click listener on share
         mAactivityMainBinding.lytToolbar.imgShare.setOnClickListener(this::share);
@@ -271,7 +320,20 @@ public class MainActivity extends AppCompatActivity implements ProviderInstaller
                 mAactivityMainBinding.lytToolbar.searchView.setVisibility(View.VISIBLE);
                 mAactivityMainBinding.lytToolbar.imgShare.setVisibility(View.GONE);
                 mAactivityMainBinding.appBottomBar.setVisibility(View.VISIBLE);
+                mAactivityMainBinding.container.setVisibility(View.GONE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+                // Remove search fragment
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("SearchFragment");
+                Log.i(TAG, "onOptionsItemSelected: Search fragment" + fragment);
+                if(fragment != null) {
+                    mAactivityMainBinding.lytToolbar.title.setVisibility(View.VISIBLE);
+                    mAactivityMainBinding.tabLyt.setVisibility(View.VISIBLE);
+                    mAactivityMainBinding.viewPager.setVisibility(View.VISIBLE);
+                    mAactivityMainBinding.appBottomBar.setVisibility(View.VISIBLE);
+                    mAactivityMainBinding.container.setVisibility(View.GONE);
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                }
                 return false;
         }
         return super.onOptionsItemSelected(item);

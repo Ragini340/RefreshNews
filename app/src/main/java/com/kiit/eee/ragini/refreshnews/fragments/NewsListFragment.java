@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
 
     private FragmentNewsListBinding mFragNewsListBinding;
     private List<Article> mList;
+    private List<Article> mSearchList;
     private List<NewsSource> mSourceList;
     private ICommunicator mICommunicator;
     private boolean isLibraryLoaded;
@@ -72,6 +74,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         super.onAttach(context);
         this.mCtx = context;
         mICommunicator = (ICommunicator) context;
+        Log.i(TAG, "onAttach: this" + this);
     }
 
 
@@ -91,6 +94,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: " + this);
         if (getArguments() != null) {
             mTabName = getArguments().getString(ARG_TABNAME);
             Log.i(TAG, "onCreate: mTabName" + mTabName);
@@ -129,6 +133,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: " + this);
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         mFragNewsListBinding = FragmentNewsListBinding.inflate(inflater, container, false);
@@ -149,6 +154,7 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
         mFragNewsListBinding = null;
         isLibraryLoaded = false;
        // SessionMangarHelper.getInstance(mCtx).setPrefBooleanData(SessionManager.PREF_KEY_IS_LIBRARY_LOADED,isLibraryLoaded);
@@ -184,12 +190,16 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
 
     @Override
     public void showProgress() {
-        mFragNewsListBinding.progressBar.setVisibility(View.VISIBLE);
+        if(mFragNewsListBinding.progressBar != null) {
+            mFragNewsListBinding.progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideProgress() {
-        mFragNewsListBinding.progressBar.setVisibility(View.GONE);
+        if(mFragNewsListBinding.progressBar != null) {
+            mFragNewsListBinding.progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -199,14 +209,25 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
 
     @Override
     public void getParsedResponse(IAppModel model, String whichUrl,int whichFeaturApiResponse) {
+        Log.i(TAG, "getParsedResponse: which feature" + whichFeaturApiResponse);
         if(whichFeaturApiResponse == NewsURL.NEWS_API_FEATURE) {
             NewsRoot newsRoot = (NewsRoot) model;
             if (newsRoot instanceof IAppModel) {
                 mList = newsRoot.getArticleList();
-                Log.i(TAG, "getParsedResponse: " + newsRoot.getArticleList());
-                setAdapter();
+                Log.i(TAG, "getParsedResponse:news " + newsRoot.getArticleList());
+                Log.i(TAG, "getParsedResponse:mList " + newsRoot.getArticleList());
+                setAdapter(mList);
             }
-        } else if(whichFeaturApiResponse == NewsURL.SOURCE_API_FEATURE){
+        } else if(whichFeaturApiResponse == NewsURL.SEARCH_API_FEATURE){
+
+            NewsRoot newsRoot = (NewsRoot) model;
+            if (newsRoot instanceof IAppModel) {
+                mSearchList = newsRoot.getArticleList();
+                Log.i(TAG, "getParsedResponse:news " + newsRoot.getArticleList());
+                Log.i(TAG, "getParsedResponse:mList " +mSearchList.size());
+                setAdapter(mSearchList);
+            }
+        }else if(whichFeaturApiResponse == NewsURL.SOURCE_API_FEATURE){
             NewsSourceRoot newsSourceRoot = (NewsSourceRoot) model;
             if(newsSourceRoot instanceof  IAppModel){
                 mSourceList = newsSourceRoot.getmSourceList();
@@ -236,21 +257,24 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
         }
     }
 
+    private void setAdapter(List<Article> list) {
 
-    private void setAdapter() {
-
-        if (mFragNewsListBinding.recyclerView != null && mList != null && mList.size() > 0) {
+        if (mFragNewsListBinding.recyclerView != null && list != null && list.size() > 0) {
             mFragNewsListBinding.recyclerView.setVisibility(View.VISIBLE);
             mFragNewsListBinding.newsWeb.setVisibility(View.GONE);
+            Log.i(TAG, "setAdapter: mFragNewsListBinding.recyclerView.getAdapter(" + mFragNewsListBinding.recyclerView.getAdapter());
             if (mFragNewsListBinding.recyclerView.getAdapter() == null || (mFragNewsListBinding.recyclerView.getAdapter() != null && !(mFragNewsListBinding.recyclerView.getAdapter() instanceof NewsRecyclerViewAdapter))) {
-                mFragNewsListBinding.recyclerView.setAdapter(null);
-                NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(NewsListFragment.this, mCtx, mList);
+                Log.i(TAG, "setAdapter: if**********");
+
+                // mFragNewsListBinding.recyclerView.invalidate();
+                NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(NewsListFragment.this, mCtx, list);
                 LinearLayoutManager lytManager = new LinearLayoutManager(mCtx);
                 lytManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mFragNewsListBinding.recyclerView.addItemDecoration(new HorizentalItemsDividerDecorator(mCtx));
                 mFragNewsListBinding.recyclerView.setLayoutManager(lytManager);
+                mFragNewsListBinding.recyclerView.addItemDecoration(new HorizentalItemsDividerDecorator(mCtx));
                 mFragNewsListBinding.recyclerView.setAdapter(adapter);
             } else {
+                Log.i(TAG, "setAdapter: else");
                 mFragNewsListBinding.recyclerView.getAdapter().notifyDataSetChanged();
             }
         }
@@ -310,5 +334,26 @@ public class NewsListFragment extends Fragment implements IProgressBarUtilityInt
             makeNewsApiCall(NewsURL.NEWS_SOURCES, NewsSourceRoot.class, NewsURL.SOURCE_API_FEATURE);
         }
     }
+
+    public void onClickOfSearch(String searchKey){
+        makeSearchApiCall(searchKey);
+    }
+    private  void makeSearchApiCall(String searchKey){
+        makeNewsApiCall(NewsURL.NEWS_SEARCH, NewsRoot.class, NewsURL.SOURCE_API_FEATURE);
+        makeApiCall(NewsURL.NEWS_SEARCH, getParamsSearch(searchKey), NewsURL.NEWS_SEARCH_API, NewsURL.SEARCH_API_FEATURE, NewsRoot.class);
+    }
+
+    private RequestParams getParamsSearch(String searchKey) {
+        RequestParams params = null;
+        if (mCtx != null) {
+            params = new RequestParams();
+            params.put("q", searchKey);
+            params.put("apiKey", Constants.API_KEY);
+            params.put("sortBy", "popularity");
+        }
+        Log.i(TAG, "getParamsForCountry: params" + params);
+        return params;
+    }
+
 }
 

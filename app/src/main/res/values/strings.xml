@@ -48,7 +48,7 @@ Kalinga Institute of Industrial Technology</string>
     <string name="help_us_view_sources_title">View News Agencies</string>
     <string name="help_us_view_sources">We can track news Sources By clicking on Library\nNews Sources list we can see and its details.</string>
     <string name="help_us_search_title">Search News</string>
-    <string name="help_us_view_search">We can search news by entering keyworad and Application will give search result till 4 year old data.</string>
+    <string name="help_us_view_search">We can search news by entering keyworad and Application will give search result till last one month old data.</string>
     <string name="help_us_login_title">Login to Application</string>
     <string name="help_us_login">This app can be used without login and by login using Phone number</string>
 

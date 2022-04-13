@@ -45,7 +45,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-      Article article = mList.get(position);
+        Article article = mList.get(position);
       if(article != null){
           if(URLUtil.isValidUrl(article.getUrlToImage())){
               Picasso.get().load(article.getUrlToImage()).into(holder.mBinding.imgNews);

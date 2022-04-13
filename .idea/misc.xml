@@ -19,7 +19,10 @@
         <entry key="..\:/Users/1807340_RAGINI/RefreshNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/about_us_bottomsheet.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/app_toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/fragment_news_list.xml" value="0.1" />
         <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/help_us_bottom_sheet.xml" value="0.12" />
+        <entry key="..\:/Users/test/AndroidStudioProjects/RefreshNews/app/src/main/res/layout/news_item_list_adapter.xml" value="0.1" />
       </map>
     </option>
   </component>
